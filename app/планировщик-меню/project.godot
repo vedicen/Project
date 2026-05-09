@@ -12,8 +12,13 @@ config_version=5
 
 config/name="Планировщик меню"
 run/main_scene="res://Сцены/DateBase.tscn"
+config/use_custom_user_dir=true
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Database="*uid://bnfrse15x25de"
 
 [editor_plugins]
 

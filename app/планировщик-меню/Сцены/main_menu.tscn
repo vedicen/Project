@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://c5m3iiysdoyyn"]
 
+[ext_resource type="Script" uid="uid://hopsjse60dgf" path="res://Скрипты/main_menu.gd" id="1_qwd0w"]
+
 [node name="MainMenu" type="Control" unique_id=1277457814]
 layout_mode = 3
 anchors_preset = 15
@@ -7,3 +9,40 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_qwd0w")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1048583447]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -199.0
+offset_top = -210.0
+offset_right = 199.0
+offset_bottom = 210.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=65891889]
+layout_mode = 2
+
+[node name="Create_menu" type="Button" parent="VBoxContainer" unique_id=1944108604]
+layout_mode = 2
+text = "Создать меню"
+
+[node name="BasaDish" type="Button" parent="VBoxContainer" unique_id=156261316]
+layout_mode = 2
+text = "База блюд"
+
+[node name="ShoppingList" type="Button" parent="VBoxContainer" unique_id=1330675358]
+layout_mode = 2
+text = "Список покупок"
+
+[node name="Exit" type="Button" parent="VBoxContainer" unique_id=2089932720]
+layout_mode = 2
+text = "Выход"
+
+[connection signal="pressed" from="VBoxContainer/Create_menu" to="." method="_on_create_menu_pressed"]
+[connection signal="pressed" from="VBoxContainer/Exit" to="." method="_on_exit_pressed"]

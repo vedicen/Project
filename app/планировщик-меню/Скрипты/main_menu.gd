@@ -12,6 +12,7 @@ func _process(delta: float) -> void:
 
 
 func _on_create_menu_pressed() -> void:
+	get_tree().change_scene_to_file("res://Сцены/GenerateMenu.tscn")
 	pass # Replace with function body.
 
 
