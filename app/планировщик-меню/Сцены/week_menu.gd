@@ -12,13 +12,53 @@ func _ready():
 func show_week_menu():
 
 	menu_text.text = ""
-	menu_text.fit_content = true  # или используйте автоматический перенос
-	menu_text.text += "ПОНЕДЕЛЬНИК\n"
-	menu_text.text += "Завтрак: Омлет\n"
-	menu_text.text += "Обед: Борщ\n"
-	menu_text.text += "Ужин: Рис с курицей\n\n"
-
-	menu_text.text += "ВТОРНИК\n"
-	menu_text.text += "Завтрак: Каша\n"
-	menu_text.text += "Обед: Суп\n"
-	menu_text.text += "Ужин: Паста\n"
+	menu_text.fit_content = true  
+	Database.db.query("""
+		SELECT * FROM dish
+	""")
+	#var dishes = Database.db.query_result
+	
+	
+	var days = [
+		"Понедельник",
+		"Вторник",
+		"Среда", 
+		"Четверг",
+		"Пятница",
+		"Суббота",
+		"Воскресенье"
+	]
+	for day in days:
+		menu_text.text += day + "\n"
+		#Завтрак
+		Database.db.query("""
+			SELECT * FROM dish
+			WHERE dish_type = 'breakfast'
+			ORDER BY RANDOM()
+			LIMIT 1
+		""")
+		var breakfast = Database.db.query_result[0]
+		
+		menu_text.text +="Завтрак: "
+		menu_text.text += breakfast["dish_name"] + "\n"
+		#ОБЕД
+		Database.db.query("""
+			SELECT * FROM dish
+			WHERE dish_type = 'lunch'
+			ORDER BY RANDOM()
+			LIMIT 1
+		""")
+		var lunch = Database.db.query_result[0]
+		menu_text.text +="Обед: "
+		menu_text.text += lunch["dish_name"] + "\n"
+		
+		Database.db.query("""
+			SELECT * FROM dish
+			WHERE dish_type = 'dinner'
+			ORDER BY RANDOM()
+			LIMIT 1
+		""")
+		var dinner = Database.db.query_result[0]
+		menu_text.text +="Ужин: "
+		menu_text.text += dinner["dish_name"] + "\n"
+	
