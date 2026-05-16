@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://dr2xngaggkujn"]
+
+[ext_resource type="Script" uid="uid://dbbi0dejrqmv2" path="res://Скрипты/DayCard.gd" id="1_u6as5"]
+
+[node name="Control" type="Control" unique_id=370293027]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_u6as5")
+
+[node name="Panel" type="Panel" parent="." unique_id=389854401]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -203.5
+offset_right = 302.0
+offset_bottom = 203.5
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=274774877]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -199.5
+offset_right = 304.0
+offset_bottom = 199.5
+grow_vertical = 2
+
+[node name="DayLabel" type="Label" parent="Panel/VBoxContainer" unique_id=2007116861]
+layout_mode = 2
+text = "День"
+
+[node name="BreakfastLabel" type="Label" parent="Panel/VBoxContainer" unique_id=424090669]
+layout_mode = 2
+text = "Завтрак"
+
+[node name="LunchLabel" type="Label" parent="Panel/VBoxContainer" unique_id=706735934]
+layout_mode = 2
+text = "Обед"
+
+[node name="DinnerLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1270122916]
+layout_mode = 2
+text = "Ужин"
+
+[node name="CaloriesLabel" type="Label" parent="Panel/VBoxContainer" unique_id=227589134]
+layout_mode = 2
+text = "ккал"
+
+[node name="PriceLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1870156617]
+layout_mode = 2
+text = "Цена"
