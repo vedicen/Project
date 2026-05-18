@@ -19,6 +19,7 @@ var total_week_carbs = 0.0
 func _ready():
 
 	randomize()
+	
 
 	show_week_menu()
 
@@ -171,6 +172,10 @@ func show_week_menu():
 
 		var card = day_card_scene.instantiate()
 
+		days_container.add_child(card)
+
+		await card.ready
+
 		card.setup_day({
 
 			"day": day,
@@ -265,3 +270,9 @@ func _on_save_button_pressed():
 	save_week_menu()
 
 	print("Меню сохранено")
+
+
+func _on_back_pressed() -> void:
+	get_tree().change_scene_to_file(
+		"res://Сцены/main_menu.tscn"
+	)

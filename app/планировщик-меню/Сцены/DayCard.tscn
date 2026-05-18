@@ -1,18 +1,24 @@
 [gd_scene format=3 uid="uid://dr2xngaggkujn"]
 
-[ext_resource type="Script" uid="uid://dbbi0dejrqmv2" path="res://Скрипты/DayCard.gd" id="1_u6as5"]
+[ext_resource type="Script" uid="uid://bm8a63pogxkpr" path="res://Скрипты/day_card.gd" id="1_yduud"]
 
-[node name="Control" type="Control" unique_id=370293027]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_u6as5")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yduud"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0.16862746, 0.1764706, 0.25882354, 1)
+corner_detail = 13
 
-[node name="Panel" type="Panel" parent="." unique_id=389854401]
-layout_mode = 1
+[sub_resource type="LabelSettings" id="LabelSettings_yduud"]
+font_size = 28
+font_color = Color(1, 0.81960785, 0.4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_av4x6"]
+font_size = 28
+
+[node name="DayCard" type="Panel" unique_id=623306631]
+custom_minimum_size = Vector2(500, 220)
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -20,37 +26,44 @@ offset_top = -203.5
 offset_right = 302.0
 offset_bottom = 203.5
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_yduud")
+script = ExtResource("1_yduud")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=274774877]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1042729680]
 layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -199.5
 offset_right = 304.0
-offset_bottom = 199.5
-grow_vertical = 2
+offset_bottom = 399.0
+theme_override_constants/separation = 20
+alignment = 1
 
-[node name="DayLabel" type="Label" parent="Panel/VBoxContainer" unique_id=2007116861]
+[node name="DayLabel" type="Label" parent="VBoxContainer" unique_id=1647447534]
 layout_mode = 2
 text = "День"
+label_settings = SubResource("LabelSettings_yduud")
 
-[node name="BreakfastLabel" type="Label" parent="Panel/VBoxContainer" unique_id=424090669]
+[node name="BreakfastLabel" type="Label" parent="VBoxContainer" unique_id=1224879608]
 layout_mode = 2
 text = "Завтрак"
+label_settings = SubResource("LabelSettings_av4x6")
 
-[node name="LunchLabel" type="Label" parent="Panel/VBoxContainer" unique_id=706735934]
+[node name="LunchLabel" type="Label" parent="VBoxContainer" unique_id=911040817]
 layout_mode = 2
 text = "Обед"
+label_settings = SubResource("LabelSettings_av4x6")
 
-[node name="DinnerLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1270122916]
+[node name="DinnerLabel" type="Label" parent="VBoxContainer" unique_id=1592433026]
 layout_mode = 2
 text = "Ужин"
+label_settings = SubResource("LabelSettings_av4x6")
 
-[node name="CaloriesLabel" type="Label" parent="Panel/VBoxContainer" unique_id=227589134]
+[node name="CaloriesLabel" type="Label" parent="VBoxContainer" unique_id=583918837]
 layout_mode = 2
 text = "ккал"
+label_settings = SubResource("LabelSettings_av4x6")
 
-[node name="PriceLabel" type="Label" parent="Panel/VBoxContainer" unique_id=1870156617]
+[node name="PriceLabel" type="Label" parent="VBoxContainer" unique_id=270933411]
 layout_mode = 2
 text = "Цена"
+label_settings = SubResource("LabelSettings_av4x6")
