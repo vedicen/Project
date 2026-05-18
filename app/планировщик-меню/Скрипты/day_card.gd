@@ -30,3 +30,7 @@ func setup_dish(data):
 func _on_delete_button_pressed():
 
 	delete_pressed.emit(dish_id)
+
+
+func _on_edit_button_pressed() -> void:
+	pass # Replace with function body.

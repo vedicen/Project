@@ -90,9 +90,7 @@ func show_week_menu():
 				0.0
 			)
 
-		# --------------------
-		# ОБЕД
-		# --------------------
+
 
 		Database.db.query("""
             SELECT * FROM dish
