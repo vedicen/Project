@@ -1,6 +1,100 @@
 [gd_scene format=3 uid="uid://dhfo3kooc127p"]
 
 [ext_resource type="Script" uid="uid://bnfrse15x25de" path="res://Скрипты/Database.gd" id="1_amre2"]
+[ext_resource type="StyleBox" uid="uid://mvfj0cljjmvx" path="res://UI/new_style_box_flat.tres" id="2_uishe"]
+[ext_resource type="Script" uid="uid://cciygqtiqncka" path="res://Сцены/panel.gd" id="3_5hmgl"]
 
 [node name="Node" type="Node" unique_id=1276611599]
 script = ExtResource("1_amre2")
+
+[node name="Panel" type="Panel" parent="." unique_id=1129641529]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_uishe")
+script = ExtResource("3_5hmgl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1583960009]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -561.0
+offset_right = 516.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 46
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer" unique_id=1307685282]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="SearchInput" type="LineEdit" parent="Panel/VBoxContainer/HBoxContainer" unique_id=707706821]
+layout_mode = 2
+theme_override_constants/outline_size = 2
+theme_override_constants/caret_width = 2
+
+[node name="SearchButton" type="Button" parent="Panel/VBoxContainer/HBoxContainer" unique_id=1026483857]
+custom_minimum_size = Vector2(20, 50)
+layout_mode = 2
+text = "Поиск"
+
+[node name="GridContainer" type="GridContainer" parent="Panel/VBoxContainer" unique_id=711107066]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/GridContainer" unique_id=517850014]
+layout_mode = 2
+text = "Название"
+
+[node name="NameInput" type="LineEdit" parent="Panel/VBoxContainer/GridContainer" unique_id=1388666221]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Panel/VBoxContainer/GridContainer" unique_id=763669823]
+layout_mode = 2
+text = "Ккал"
+
+[node name="CaloriesInput" type="LineEdit" parent="Panel/VBoxContainer/GridContainer" unique_id=1986660892]
+visible = false
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="Panel/VBoxContainer/GridContainer" unique_id=2003263605]
+layout_mode = 2
+text = "Цена"
+
+[node name="PriceInput" type="LineEdit" parent="Panel/VBoxContainer/GridContainer" unique_id=885473965]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="Panel/VBoxContainer/GridContainer" unique_id=1862345227]
+layout_mode = 2
+text = "Белки"
+
+[node name="ProteinsInput" type="LineEdit" parent="Panel/VBoxContainer/GridContainer" unique_id=1652337958]
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="Panel/VBoxContainer/GridContainer" unique_id=1119057238]
+layout_mode = 2
+text = "Тип"
+
+[node name="TypeOption" type="OptionButton" parent="Panel/VBoxContainer/GridContainer" unique_id=1424861634]
+layout_mode = 2
+
+[node name="AddButton" type="Button" parent="Panel/VBoxContainer/GridContainer" unique_id=497372714]
+layout_mode = 2
+text = "Добавить блюдо"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel/VBoxContainer" unique_id=280122465]
+layout_mode = 2
+
+[node name="DishContainer" type="VBoxContainer" parent="Panel/VBoxContainer/ScrollContainer" unique_id=1772766113]
+layout_mode = 2
+
+[node name="Back" type="Button" parent="Panel/VBoxContainer" unique_id=709813223]
+layout_mode = 2
+text = "НАЗАД"
+
+[connection signal="pressed" from="Panel/VBoxContainer/GridContainer/AddButton" to="Panel" method="_on_add_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Back" to="." method="_on_back_pressed"]

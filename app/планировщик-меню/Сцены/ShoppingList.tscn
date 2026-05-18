@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://50n4f7qe8ywe"]
 
 [ext_resource type="Script" uid="uid://x7llh5iilkch" path="res://Скрипты/shopping_list.gd" id="1_ia1x6"]
+[ext_resource type="StyleBox" uid="uid://mvfj0cljjmvx" path="res://UI/new_style_box_flat.tres" id="2_hhtgi"]
 
 [node name="Control" type="Control" unique_id=1495576718]
 layout_mode = 3
@@ -24,6 +25,11 @@ grow_vertical = 2
 [node name="shopping_text" type="RichTextLabel" parent="VBoxContainer" unique_id=744292462]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="VBoxContainer" unique_id=282045781]
+[node name="back" type="Button" parent="VBoxContainer" unique_id=282045781]
 layout_mode = 2
+theme_override_styles/normal = ExtResource("2_hhtgi")
+theme_override_styles/pressed = ExtResource("2_hhtgi")
+theme_override_styles/hover = ExtResource("2_hhtgi")
 text = "Назад"
+
+[connection signal="pressed" from="VBoxContainer/back" to="." method="_on_back_pressed"]
