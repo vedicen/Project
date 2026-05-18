@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bnfrse15x25de" path="res://Скрипты/Database.gd" id="1_amre2"]
 [ext_resource type="StyleBox" uid="uid://mvfj0cljjmvx" path="res://UI/new_style_box_flat.tres" id="2_uishe"]
-[ext_resource type="Script" uid="uid://cciygqtiqncka" path="res://Сцены/panel.gd" id="3_5hmgl"]
+[ext_resource type="Script" uid="uid://cciygqtiqncka" path="res://Скрипты/panel.gd" id="3_5hmgl"]
 
 [node name="Node" type="Node" unique_id=1276611599]
 script = ExtResource("1_amre2")

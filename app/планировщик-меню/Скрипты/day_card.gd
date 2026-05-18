@@ -1,33 +1,32 @@
 extends Panel
 
-@onready var v_box_container: VBoxContainer = $VBoxContainer
-@onready var day_label: Label = $VBoxContainer/DayLabel
-@onready var lunch_label: Label = $VBoxContainer/LunchLabel
-@onready var dinner_label: Label = $VBoxContainer/DinnerLabel
-@onready var calories_label: Label = $VBoxContainer/CaloriesLabel
-@onready var price_label: Label = $VBoxContainer/PriceLabel
-@onready var breakfast_label: Label = $VBoxContainer/BreakfastLabel
+signal delete_pressed
+
+var dish_id = 0
 
 
-func _ready():
+@onready var name_label =$VBoxContainer/NameLabel
 
-	print(day_label)
-	print(breakfast_label)
-	print(lunch_label)
-	print(dinner_label)
-	print(calories_label)
-	print(price_label)
+@onready var calories_label =$VBoxContainer/CaloriesLabel
 
-func setup_day(data):
+@onready var price_label =$VBoxContainer/PriceLabel
 
-	day_label.text = data["day"]
+@onready var type_label =$VBoxContainer/TypeLabel
 
-	breakfast_label.text =  data["breakfast"]
 
-	lunch_label.text = data["lunch"]
+func setup_dish(data):
 
-	dinner_label.text =  data["dinner"]
+	dish_id = data["id"]
 
-	calories_label.text ="Ккал: " + str(data["calories"])
+	name_label.text =data["dish_name"]
 
-	price_label.text = "Цена: " + str(data["price"]) + " ₽"
+	calories_label.text ="Ккал: " +str(data["calories"])
+
+	price_label.text ="Цена: " +str(data["price"]) +" ₽"
+
+	type_label.text ="Тип: " +data["dish_type"]
+
+
+func _on_delete_button_pressed():
+
+	delete_pressed.emit(dish_id)
