@@ -3,7 +3,7 @@ extends Panel
 signal delete_pressed
 
 var dish_id = 0
-
+signal edit_pressed
 
 @onready var name_label =$VBoxContainer/NameLabel
 
@@ -31,6 +31,5 @@ func _on_delete_button_pressed():
 
 	delete_pressed.emit(dish_id)
 
-
-func _on_edit_button_pressed() -> void:
-	pass # Replace with function body.
+func _on_edit_button_pressed():
+	edit_pressed.emit(dish_id)

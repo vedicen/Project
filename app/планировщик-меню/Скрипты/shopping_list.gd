@@ -1,64 +1,152 @@
 extends Control
 
-@onready var shopping_text: RichTextLabel = $VBoxContainer/shopping_text
+@onready var items_container =$Panel/VBoxContainer/ScrollContainer/ItemsContainer
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
+var shopping_item_scene =preload("res://Сцены/ShoppingItem.tscn")
+
+
+func _ready():
+
 	generate_shopping_list()
-	pass # Replace with function body.
 
+
+# =====================================
+# ГЕНЕРАЦИЯ СПИСКА ПОКУПОК
+# =====================================
 
 func generate_shopping_list():
-	shopping_text.text = ""
-	shopping_text.fit_content = true 
-	
-	var ingredients_dict = {}
-	Database.db.query("""
-		SELECT * FROM dish
-	""")
-	var dishes = Database.db.query_result
-	for dish in dishes:
-		var dish_id = dish["id_dish"]
-		
-		Database.db.query("""
-			SELECT ingredient.ingredient_name,
-			ingredient.unit,
-			dish_ingredient.quantity
-			FROM dish_ingredient
-			
-			JOIN ingredient
-			ON ingredient.id_ingredient = dish_ingredient.id_ingredient
-			
-			WHERE dish_ingredient.id_dish = 
-		""" + str(dish_id))
-		var ingredients = Database.db.query_result
-		for ingredient in ingredients:
-			var name = ingredient["ingredient_name"]
-			var quantity = ingredient["quantity"]
-			var unit = ingredient["unit"]
-			if ingredients_dict.has(name):
-				ingredients_dict[name]["quantity"] += quantity
-			else:
-					
-				ingredients_dict[name] ={
-					"quantity": quantity,
-					"unit" : unit
-				}	
-	shopping_text.text += "СПИСОК ПОКУПОК\n\n"
-	for name in ingredients_dict:
-		var quantity = ingredients_dict[name]["quantity"]
-		var unit = ingredients_dict[name]["unit"]
-		
-		shopping_text.text += (
-			name + " - "
-			+ str(quantity)
+
+	clear_container()
+
+	var ingredients = {}
+
+	# =====================================
+	# ПРОХОД ПО ВСЕМ ДНЯМ
+	# =====================================
+
+	for day_data in WeekMenu.week_menu:
+
+		add_dish_ingredients(
+			day_data["breakfast"]["id"],
+			ingredients
+		)
+
+		add_dish_ingredients(
+			day_data["lunch"]["id"],
+			ingredients
+		)
+
+		add_dish_ingredients(
+			day_data["dinner"]["id"],
+			ingredients
+		)
+
+	# =====================================
+	# СОЗДАНИЕ КАРТОЧЕК
+	# =====================================
+
+	for ingredient_name in ingredients.keys():
+
+		var item =shopping_item_scene.instantiate()
+
+		items_container.add_child(item)
+
+		await item.ready
+
+		item.setup_item(
+
+			ingredient_name
+			+ " — "
+			+ str(
+				ingredients[
+					ingredient_name
+				]["amount"]
+			)
 			+ " "
-			+ unit + "\n"
+			+ ingredients[
+				ingredient_name
+			]["unit"]
 		)
 
 
-func _on_back_pressed() -> void:
-		get_tree().change_scene_to_file(
+# =====================================
+# ДОБАВЛЕНИЕ ИНГРЕДИЕНТОВ БЛЮДА
+# =====================================
+
+func add_dish_ingredients(
+	dish_id,
+	ingredients
+):
+
+	Database.db.query("""
+
+		SELECT
+			ingredient.name,
+			ingredient.unit,
+			dish_ingredient.amount
+
+		FROM dish_ingredient
+
+		JOIN ingredient
+
+		ON ingredient.id =
+		dish_ingredient.ingredient_id
+
+		WHERE dish_ingredient.dish_id = %d
+
+	""" % dish_id)
+
+	var result =Database.db.query_result
+
+	for row in result:
+
+		var ingredient_name =row["name"]
+
+		# =====================================
+		# ЕСЛИ ИНГРЕДИЕНТА НЕТ
+		# =====================================
+
+		if not ingredients.has(
+			ingredient_name
+		):
+
+			ingredients[
+				ingredient_name
+			] = {
+
+				"amount": 0,
+
+				"unit":
+					row["unit"]
+			}
+
+		# =====================================
+		# СУММИРОВАНИЕ
+		# =====================================
+
+		ingredients[
+			ingredient_name
+		]["amount"] += row["amount"]
+
+
+# =====================================
+# ОЧИСТКА КОНТЕЙНЕРА
+# =====================================
+
+func clear_container():
+
+	for child in items_container.get_children():
+
+		child.queue_free()
+
+
+# =====================================
+# КНОПКА НАЗАД
+# =====================================
+
+func _on_back_button_pressed():
+
+	get_tree().change_scene_to_file(
 		"res://Сцены/main_menu.tscn"
-	) # Replace with function body.
+	)

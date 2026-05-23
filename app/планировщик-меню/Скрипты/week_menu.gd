@@ -1,30 +1,29 @@
 extends Control
+class_name WeekMenu
+@onready var days_container =$Panel/VBoxContainer/ScrollContainer/DaysContainer
 
-@onready var days_container = $ScrollContainer/DaysContainer
+@onready var persons_input =$Panel/VBoxContainer/HBoxContainer/PersonsInput
 
-var day_card_scene = preload("res://Сцены/DayCard.tscn")
+@onready var budget_input =$Panel/VBoxContainer/HBoxContainer/BudgetInput
 
-# Хранение меню
-var week_menu = []
 
-# Итоги недели
-var total_week_calories = 0.0
-var total_week_price = 0.0
+var day_card_scene =preload("res://Сцены/DayCard.tscn")
 
-var total_week_proteins = 0.0
-var total_week_fats = 0.0
-var total_week_carbs = 0.0
+static var week_menu = []
+var used_dishes = []
 
 
 func _ready():
 
 	randomize()
-	
-
-	show_week_menu()
 
 
-func show_week_menu():
+func _on_generate_button_pressed():
+
+	generate_week_menu()
+
+
+func generate_week_menu():
 
 	# Очистка старых карточек
 	for child in days_container.get_children():
@@ -33,142 +32,70 @@ func show_week_menu():
 
 	week_menu.clear()
 
-	total_week_calories = 0.0
-	total_week_price = 0.0
+	used_dishes.clear()
 
-	total_week_proteins = 0.0
-	total_week_fats = 0.0
-	total_week_carbs = 0.0
+	# Получение данных
+	var persons =persons_input.text.to_int()
 
+	var budget =budget_input.text.to_float()
+
+	# Проверка
+	if persons <= 0:
+
+		persons = 1
+
+	if budget <= 0:
+
+		budget = 10000
+
+	var current_budget = 0.0
+
+	# Дни недели
 	var days = [
+
 		"Понедельник",
 		"Вторник",
 		"Среда",
 		"Четверг",
 		"Пятница",
 		"Суббота",
-        "Воскресенье"
+		"Воскресенье"
 	]
 
+	# Генерация
 	for day in days:
 
-		# Данные дня
-		var day_data = {}
-
-		# Статистика дня
-		var day_calories = 0.0
-		var day_price = 0.0
-
-		var day_proteins = 0.0
-		var day_fats = 0.0
-		var day_carbs = 0.0
-
-		# ЗАВТРАК
-
-
-		Database.db.query("""
-            SELECT * FROM dish
-            WHERE dish_type = 'breakfast'
-            ORDER BY RANDOM()
-            LIMIT 1
-		""")
-
-		var breakfast =Database.db.query_result[0]
-
-		day_data["breakfast"] = breakfast
-
-		day_calories +=breakfast.get("calories", 0.0)
-
-		day_price += breakfast.get("price", 0.0)
-
-		day_proteins +=breakfast.get("proteins", 0.0)
-
-		day_fats += breakfast.get("fats", 0.0)
-
-		day_carbs += breakfast.get(
-				"carbohydrates",
-				0.0
+		var breakfast =get_random_dish(
+				"breakfast"
 			)
 
-
-
-		Database.db.query("""
-            SELECT * FROM dish
-            WHERE dish_type = 'lunch'
-            ORDER BY RANDOM()
-            LIMIT 1
-		""")
-
-		var lunch =Database.db.query_result[0]
-
-		day_data["lunch"] =lunch
-
-		day_calories +=lunch.get("calories", 0.0)
-
-		day_price +=lunch.get("price", 0.0)
-
-		day_proteins +=lunch.get("proteins", 0.0)
-
-		day_fats += lunch.get("fats", 0.0)
-
-		day_carbs += lunch.get(
-				"carbohydrates",
-				0.0
+		var lunch =get_random_dish(
+				"lunch"
 			)
 
-
-		# УЖИН
-
-
-		Database.db.query("""
-            SELECT * FROM dish
-            WHERE dish_type = 'dinner'
-            ORDER BY RANDOM()
-            LIMIT 1
-		""")
-
-		var dinner = Database.db.query_result[0]
-
-		day_data["dinner"] =  dinner
-
-		day_calories +=dinner.get("calories", 0.0)
-
-		day_price +=dinner.get("price", 0.0)
-
-		day_proteins +=dinner.get("proteins", 0.0)
-
-		day_fats += dinner.get("fats", 0.0)
-
-		day_carbs += dinner.get(
-				"carbohydrates",
-				0.0
+		var dinner =get_random_dish(
+				"dinner"
 			)
 
-		# СОХРАНЕНИЕ ДНЯ
+		# Стоимость дня
+		var day_price =(
+				breakfast["price"] +
+				lunch["price"] +
+				dinner["price"]
+			) * persons
 
-		day_data["day"] = day
+		# Проверка бюджета
+		if current_budget + day_price > budget:
 
-		week_menu.append(day_data)
+			break
 
+		current_budget += day_price
 
-		# ИТОГИ НЕДЕЛИ
-   
+		# Калории
+		var day_calories =breakfast["calories"] +lunch["calories"] +dinner["calories"]
 
-		total_week_calories +=day_calories
-
-		total_week_price +=day_price
-
-		total_week_proteins +=day_proteins
-
-		total_week_fats +=day_fats
-
-		total_week_carbs += day_carbs
-
-
-		# СОЗДАНИЕ КАРТОЧКИ
- 
-
-		var card = day_card_scene.instantiate()
+		# Создание карточки
+		var card =day_card_scene.instantiate()
 
 		days_container.add_child(card)
 
@@ -194,34 +121,52 @@ func show_week_menu():
 				day_price
 		})
 
-		days_container.add_child(card)
+		# Сохранение меню
+		week_menu.append({
+
+			"day": day,
+
+			"breakfast":
+				breakfast,
+
+			"lunch":
+				lunch,
+
+			"dinner":
+				dinner
+		})
 
 
-func replace_random_dish():
-
-	if week_menu.size() == 0:
-		return
-
-	var random_day =randi() % week_menu.size()
+func get_random_dish(type):
 
 	Database.db.query("""
-        SELECT * FROM dish
-        WHERE dish_type = 'dinner'
-        ORDER BY RANDOM()
-        LIMIT 1
-	""")
+		SELECT * FROM dish
+		WHERE dish_type = '%s'
+		ORDER BY RANDOM()
+	""" % type)
 
-	var new_dinner = Database.db.query_result[0]
+	var dishes =Database.db.query_result
 
-	week_menu[random_day]["dinner"] = new_dinner
+	for dish in dishes:
 
-	show_week_menu()
+		if not used_dishes.has(
+			dish["id"]
+		):
+
+			used_dishes.append(
+				dish["id"]
+			)
+
+			return dish
+
+	# Если все блюда уже были
+	return dishes[0]
 
 
 func save_week_menu():
 
 	Database.db.query("""
-        DELETE FROM saved_menu
+		DELETE FROM saved_menu
 	""")
 
 	for day_data in week_menu:
@@ -235,32 +180,28 @@ func save_week_menu():
 		var dinner =day_data["dinner"]["dish_name"]
 
 		Database.db.query("""
-            INSERT INTO saved_menu
-            (
-                day_name,
-                breakfast,
-                lunch,
-                dinner
-            )
+			INSERT INTO saved_menu
+			(
+				day_name,
+				breakfast,
+				lunch,
+				dinner
+			)
 
-            VALUES
-            (
-                '%s',
-                '%s',
-                '%s',
-                '%s'
-            )
+			VALUES
+			(
+				'%s',
+				'%s',
+				'%s',
+				'%s'
+			)
 		""" % [
+
 			day_name,
 			breakfast,
 			lunch,
 			dinner
 		])
-
-
-func _on_replace_button_pressed():
-
-	replace_random_dish()
 
 
 func _on_save_button_pressed():
@@ -270,7 +211,8 @@ func _on_save_button_pressed():
 	print("Меню сохранено")
 
 
-func _on_back_pressed() -> void:
+func _on_back_button_pressed():
+
 	get_tree().change_scene_to_file(
-		"res://Сцены/main_menu.tscn"
+		"res://main_menu.tscn"
 	)
