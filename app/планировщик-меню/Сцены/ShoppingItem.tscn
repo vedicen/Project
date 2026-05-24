@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://diymv23if57q"]
 
-[ext_resource type="Script" uid="uid://cmw6afdttb0ei" path="res://ShoppingItem.gd" id="1_pddpr"]
+[ext_resource type="Script" uid="uid://cmw6afdttb0ei" path="res://Скрипты/ShoppingItem.gd" id="1_pddpr"]
 
 [node name="Control" type="Control" unique_id=1093948099]
 layout_mode = 3
@@ -29,3 +29,5 @@ layout_mode = 2
 
 [node name="ItemLabel" type="Label" parent="ShoppingItem/HBoxContainer" unique_id=1064741389]
 layout_mode = 2
+
+[connection signal="toggled" from="ShoppingItem/HBoxContainer/BoughtCheck" to="." method="_on_bought_check_toggled"]

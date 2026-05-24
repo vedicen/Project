@@ -209,7 +209,8 @@ func clear_inputs():
 	proteins_input.text = ""
 func edit_dish(dish_id):
 
-	editing_dish_id = dish_id
+	
+		
 
 	Database.db.query("""
 		SELECT * FROM dish
