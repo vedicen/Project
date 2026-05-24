@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://diymv23if57q"]
+
+[ext_resource type="Script" uid="uid://cmw6afdttb0ei" path="res://Скрипты/ShoppingItem.gd" id="1_pddpr"]
+
+[node name="Control" type="Control" unique_id=1093948099]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pddpr")
+
+[node name="ShoppingItem" type="Panel" parent="." unique_id=1664783654]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ShoppingItem" unique_id=259986145]
+layout_mode = 0
+offset_right = 295.0
+offset_bottom = 125.0
+
+[node name="BoughtCheck" type="CheckBox" parent="ShoppingItem/HBoxContainer" unique_id=1631437354]
+layout_mode = 2
+
+[node name="ItemLabel" type="Label" parent="ShoppingItem/HBoxContainer" unique_id=1064741389]
+layout_mode = 2
+
+[connection signal="toggled" from="ShoppingItem/HBoxContainer/BoughtCheck" to="." method="_on_bought_check_toggled"]
