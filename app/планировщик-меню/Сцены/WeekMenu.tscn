@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://qow6fidn8swn"]
+
+[ext_resource type="Script" uid="uid://dim056chftxwe" path="res://Скрипты/week_menu.gd" id="1_rjby1"]
+[ext_resource type="StyleBox" uid="uid://mvfj0cljjmvx" path="res://UI/new_style_box_flat.tres" id="2_ek5l5"]
+[ext_resource type="StyleBox" uid="uid://b6wdwmq5xvwv5" path="res://UI/new_style_box_flat_button.tres" id="3_aawto"]
+
+[node name="WeekMenu" type="Control" unique_id=1779940505]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rjby1")
+
+[node name="Panel" type="Panel" parent="." unique_id=875238622]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("2_ek5l5")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel" unique_id=1675585774]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -163.5
+offset_top = -212.5
+offset_right = 163.5
+offset_bottom = 212.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DaysContainer" type="VBoxContainer" parent="Panel/ScrollContainer" unique_id=1374628443]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel" unique_id=1132278962]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -418.0
+offset_top = -87.0
+offset_right = -22.0
+offset_bottom = -19.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel/HBoxContainer" unique_id=164886527]
+layout_mode = 2
+text = "Персон:"
+
+[node name="PersonsInput" type="LineEdit" parent="Panel/HBoxContainer" unique_id=1273017278]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Panel/HBoxContainer" unique_id=392179564]
+layout_mode = 2
+text = "Бюджет:"
+
+[node name="BudgetInput" type="LineEdit" parent="Panel/HBoxContainer" unique_id=1084360065]
+layout_mode = 2
+
+[node name="GenerateButton" type="Button" parent="Panel/HBoxContainer" unique_id=1696466454]
+layout_mode = 2
+text = "Сгенерировать"
+
+[node name="Button" type="Button" parent="." unique_id=424303498]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 929.0
+offset_top = -649.0
+offset_right = 1150.0
+offset_bottom = -561.0
+grow_vertical = 0
+theme_override_styles/normal = ExtResource("3_aawto")
+text = "НАЗАД"
