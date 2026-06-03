@@ -1,15 +1,15 @@
 [remap]
 
-importer="scene"
+importer="animation_library"
 importer_version=1
-type="PackedScene"
-uid="uid://cm2vl4xf1mru6"
-path="res://.godot/imported/Idle.fbx-a0d9dd883bd91273d97217e3870e9e2a.scn"
+type="AnimationLibrary"
+uid="uid://5r8gokqql5q"
+path="res://.godot/imported/Fast Run.fbx-94a87715b6f2ab92b6a893976a97537f.res"
 
 [deps]
 
-source_file="res://Player/3d/Idle.fbx"
-dest_files=["res://.godot/imported/Idle.fbx-a0d9dd883bd91273d97217e3870e9e2a.scn"]
+source_file="res://Player/3d/Fast Run.fbx"
+dest_files=["res://.godot/imported/Fast Run.fbx-94a87715b6f2ab92b6a893976a97537f.res"]
 
 [params]
 
