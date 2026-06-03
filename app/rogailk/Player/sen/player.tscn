@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dxx71xnwxplx0" path="res://Player/sript/player.gd" id="1_0wa4a"]
 [ext_resource type="Texture2D" uid="uid://dxuv2aob3ttur" path="res://Player/3d/human_man_warrior.png.001.png" id="2_maiaf"]
 [ext_resource type="AnimationLibrary" uid="uid://5r8gokqql5q" path="res://Player/3d/Fast Run.fbx" id="3_4p6ab"]
+[ext_resource type="PackedScene" uid="uid://d3lkt1kgkgrfq" path="res://Partical/sen/UI_Skil.tscn" id="4_0wa4a"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vftp1"]
 resource_name = "palette.033"
@@ -613,3 +614,5 @@ shape = SubResource("CapsuleShape3D_fiqjg")
 
 [node name="Camera3D" type="Camera3D" parent="camera_pivot" unique_id=1598555737]
 transform = Transform3D(-1, 0, -8.742278e-08, -2.5067774e-08, 0.9580079, 0.2867419, 8.375171e-08, 0.2867419, -0.9580079, 0, 5.8611307, -5.4610214)
+
+[node name="Control" parent="." unique_id=668196073 instance=ExtResource("4_0wa4a")]

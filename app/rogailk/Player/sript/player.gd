@@ -1,7 +1,8 @@
 extends CharacterBody3D
-
+class_name Player
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
+@onready var control: Control = $Control
 
 @onready var animation_player: AnimationPlayer = $skin/AnimationPlayer
 @onready var animation_tree: AnimationTree = $skin/AnimationTree
@@ -10,6 +11,8 @@ const JUMP_VELOCITY = 4.5
 var mouse_sensitivity = 0.003
 
 func _ready():
+	control.hidden
+	Global.player = self 
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 	animation_tree.active = true
@@ -67,3 +70,5 @@ func _physics_process(delta):
 	animation_tree.set("parameters/RunValue/blend_amount", run_value)
 
 	move_and_slide()
+func level_up():
+	control.show()
