@@ -11,8 +11,6 @@ radius = 2.0
 [node name="Node3D" type="Node3D" unique_id=1027686714]
 script = ExtResource("1_y3k0m")
 
-[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=134159548]
-
 [node name="CheseArea" type="Area3D" parent="." unique_id=483544499]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CheseArea" unique_id=116938047]
@@ -22,6 +20,8 @@ shape = SubResource("SphereShape3D_4xowi")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="getArea" unique_id=795980085]
 shape = SubResource("SphereShape3D_yyde6")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=382068622]
 
 [connection signal="body_entered" from="CheseArea" to="." method="_on_chese_area_body_entered"]
 [connection signal="body_exited" from="CheseArea" to="." method="_on_chese_area_body_exited"]

@@ -34,4 +34,5 @@ size = Vector3(36.200745, 1, 24.211731)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5932617, 0.5, -3.4349701)
 
 [node name="Node3D" parent="." unique_id=1027686714 instance=ExtResource("2_sxcit")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.28751, 1, -4.359811)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.28751, 1.0874791, -1.8009672)
+exp = 2

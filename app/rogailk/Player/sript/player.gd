@@ -20,7 +20,7 @@ func _ready():
 	print("=== READY ===")
 	print("AnimationTree: ", animation_tree)
 	print("Active: ", animation_tree.active)
-	print("RunValue: ", animation_tree.get("parameters/RunValue"))
+	print("RunValue: ", animation_tree.get("parameters/RunValue/blend_amount"))
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -51,8 +51,14 @@ func _physics_process(delta):
 		velocity.y = JUMP_VELOCITY
 
 	# Движение
-	var input_dir = Input.get_vector("rigth", "left", "down", "up")
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var input_dir = Input.get_vector(
+	"left",
+	"right",
+	"up",
+	"down"
+)
+	var direction = ( transform.basis * Vector3(-input_dir.x, 0, -input_dir.y)
+).normalized()
 
 	if direction:
 		velocity.x = direction.x * SPEED

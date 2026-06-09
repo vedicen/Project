@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="Rogailk"
+run/main_scene="uid://bvknk2wcw5j8h"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
