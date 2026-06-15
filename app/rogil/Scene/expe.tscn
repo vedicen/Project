@@ -22,6 +22,7 @@ shape = SubResource("SphereShape3D_qo0f2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D2" unique_id=975845068]
 shape = SubResource("SphereShape3D_kxy7e")
+debug_color = Color(0.32987282, 0.6153293, 0.29656127, 0.41960785)
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Area3D2" to="." method="_on_area_3d_2_body_entered"]

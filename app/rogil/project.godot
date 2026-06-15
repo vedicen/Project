@@ -20,6 +20,11 @@ config/icon="res://icon.svg"
 Skill="*uid://c0ailttp1v5qy"
 Gloval="*uid://cwp3c0l6nwhpl"
 
+[global_group]
+
+player=""
+enemy=""
+
 [input]
 
 left={

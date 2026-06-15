@@ -1,24 +1,33 @@
 extends Entity
 class_name Plaeyr
+
 @onready var animation_player: AnimationPlayer = $Idle/AnimationPlayer
 @onready var camerapoint: Node3D = $camerapoint
 @onready var camera_3d: Camera3D = $camerapoint/Camera3D
+@onready var idle: Node3D = $Idle
+@onready var area_dmg: Area3D = $Area_dmg
+@onready var collision_shape_dmg: CollisionShape3D = $Area_dmg/CollisionShapeDMG
 
-const SPEED = 5.0
-const SPRINT_SPEED = 9.0
+const WALK_SPEED = 20.0   # нормальная скорость (подберите на глаз)
 const ACCELERATION = 10.0
-const FRICTION = 20.0  # было 12.0
+const FRICTION = 20.0
 const MOUSE_SENSITIVITY = 0.003
 const CAMERA_MIN_PITCH = -60.0
 const CAMERA_MAX_PITCH = 75.0
+const MODEL_ROTATION_SPEED = 10.0
+const ATTACK_RANGE = 2.5
 
 var camera_pitch: float = 0.0
+var enemies_in_range: Array[Entity] = []
 
+# Player.gd (дописать в _ready)
 func _ready() -> void:
-	super()
+	super._ready()
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	animation_player.play("Idle")
-
+	add_to_group("player")
+	area_dmg.body_entered.connect(_on_attack_area_entered)
+	area_dmg.body_exited.connect(_on_attack_area_exited)
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
@@ -38,18 +47,31 @@ func _input(event: InputEvent) -> void:
 				else Input.MOUSE_MODE_CAPTURED
 			Input.set_mouse_mode(mode)
 
+	#if event is InputEventMouseButton and event.pressed:
+		#if event.button_index == MOUSE_BUTTON_LEFT:
+			#_attack_nearest_enemy()
+
 func _physics_process(delta: float) -> void:
-	_apply_gravity(delta)
+	if not is_on_floor():
+		velocity += get_gravity() * delta
 	_handle_movement(delta)
 	_update_animation()
 	move_and_slide()
-
-func _apply_gravity(delta: float) -> void:
-	if not is_on_floor():
-		velocity += get_gravity() * delta
-
+	
+	# Атака ПОСЛЕ движения
+	if enemies_in_range.size() > 0:
+		print("Врагов в зоне: ", enemies_in_range.size())   # строка A
+		var nearest = _get_nearest_enemy()
+		if nearest:
+			print("Атакую ", nearest.name)      
+			print("попытка атаки")            # строка B
+			try_attack(nearest)
+	
+func _get_nearest_enemy() -> Entity:
+	if enemies_in_range.size() == 0:
+		return null
+	return enemies_in_range[0]  
 func _handle_movement(delta: float) -> void:
-	var speed := SPRINT_SPEED if Input.is_action_pressed("sprint") else SPEED
 	var input_dir := Input.get_vector("left", "right", "up", "down")
 	var cam_basis := camera_3d.global_transform.basis
 	var forward := -cam_basis.z
@@ -58,27 +80,64 @@ func _handle_movement(delta: float) -> void:
 	right.y = 0
 	forward = forward.normalized()
 	right = right.normalized()
-
 	var direction := (forward * -input_dir.y + right * input_dir.x).normalized()
 
 	if direction.length() > 0.1:
-		var target_angle := atan2(direction.x, direction.z)
-		rotation.y = lerp_angle(rotation.y, target_angle, delta * 10.0)
-		velocity.x = move_toward(velocity.x, direction.x * speed, ACCELERATION * delta)
-		velocity.z = move_toward(velocity.z, direction.z * speed, ACCELERATION * delta)
+		# Целевая скорость — направление умноженное на WALK_SPEED
+		var target_velocity = direction * WALK_SPEED
+		velocity.x = move_toward(velocity.x, target_velocity.x, ACCELERATION * delta)
+		velocity.z = move_toward(velocity.z, target_velocity.z, ACCELERATION * delta)
+				# Поворот модели (оставляем как есть)
+		var local_dir := global_transform.basis.inverse() * direction
+		var target_angle := atan2(local_dir.x, local_dir.z)
+		idle.rotation.y = lerp_angle(idle.rotation.y, target_angle, delta * MODEL_ROTATION_SPEED)
 	else:
-		velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
-		velocity.z = move_toward(velocity.z, 0, FRICTION * delta)
+		velocity.x = move_toward(velocity.x, 0.0, FRICTION * delta)
+		velocity.z = move_toward(velocity.z, 0.0, FRICTION * delta)
 
 func _update_animation() -> void:
-	# Было > 0.5 — теперь > 0.1 для быстрой реакции
 	var moving := Vector2(velocity.x, velocity.z).length() > 0.1
-	var sprinting := Input.is_action_pressed("sprint")
-
 	if moving:
-		var target := "Run/mixamo_com" if sprinting else "Walking/mixamo_com"
-		if animation_player.current_animation != target:
-			animation_player.play(target)
+		if animation_player.current_animation != "Walking/mixamo_com":
+			animation_player.play("Walking/mixamo_com")
 	else:
 		if animation_player.current_animation != "Idle":
 			animation_player.play("Idle")
+
+func _attack_nearest_enemy() -> void:
+	var nearest: Entity = null
+	var nearest_dist := ATTACK_RANGE
+
+	for enemy in get_tree().get_nodes_in_group("enemy"):
+		if not (enemy is Entity):
+			continue
+		var dist := global_position.distance_to(enemy.global_position)
+		if dist <= nearest_dist:
+			nearest_dist = dist
+			nearest = enemy
+
+	if nearest:
+		try_attack(nearest)
+
+
+
+
+func _on_attack_area_entered(body: Node3D) -> void:
+	print("В зону вошло: ", body.name)
+	if body is Entity and body.is_in_group("enemy"):
+		if body not in enemies_in_range:
+			enemies_in_range.append(body)
+
+func _on_attack_area_exited(body: Node3D) -> void:
+	print("В зону вышло: ", body.name)   # исправлено сообщение
+	if body is Entity and body.is_in_group("enemy"):
+		enemies_in_range.erase(body)
+		
+		
+		
+		
+		
+		
+		
+		
+		
