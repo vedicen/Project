@@ -11,11 +11,21 @@ class_name Plaeyr
 @onready var control: Control = $Control
 @onready var panel: Panel = $Control/Panel
 @onready var v_box_container: VBoxContainer = $Control/Panel/VBoxContainer
-@onready var upgete_1: Button = $Control/Panel/VBoxContainer/Upgete1
-@onready var upgete_2: Button = $Control/Panel/VBoxContainer/Upgete2
-@onready var upgete_4: Button = $Control/Panel/VBoxContainer/Upgete4
-@onready var upgete_5: Button = $Control/Panel/VBoxContainer/Upgete5
-@onready var hp_bar: ProgressBar = $ProgressBar
+@onready var hp_bar: ProgressBar = $Control/ProgressBar
+
+@onready var lable_max_hp: Label = $Control/Panel/VBoxContainer/HBoxContainer/lable_max_hp
+@onready var lable_dmg: Label = $Control/Panel/VBoxContainer/HBoxContainer2/lable_dmg
+@onready var lable_crit_chanc: Label = $Control/Panel/VBoxContainer/HBoxContainer3/lable_crit_chanc
+@onready var lable_crit: Label = $Control/Panel/VBoxContainer/HBoxContainer4/lable_crit
+@onready var lable_regen_hp: Label = $Control/Panel/VBoxContainer/HBoxContainer5/lable_regen_hp
+@onready var lable_speed: Label = $Control/Panel/VBoxContainer/HBoxContainer6/lable_speed
+@onready var lable_speed_attakc: Label = $Control/Panel/VBoxContainer/HBoxContainer7/lable_speed_attakc
+
+
+
+@onready var label_hp: Label = $Control/Label
+
+
 
 const WALK_SPEED = 20.0   # нормальная скорость (подберите на глаз)
 const ACCELERATION = 10.0
@@ -95,17 +105,17 @@ func _handle_movement(delta: float) -> void:
 	var direction := (forward * -input_dir.y + right * input_dir.x).normalized()
 
 	if direction.length() > 0.1:
-		# Целевая скорость — направление умноженное на WALK_SPEED
-		var target_velocity = direction * WALK_SPEED
-		velocity.x = move_toward(velocity.x, target_velocity.x, ACCELERATION * delta)
-		velocity.z = move_toward(velocity.z, target_velocity.z, ACCELERATION * delta)
-				# Поворот модели (оставляем как есть)
+		# Мгновенная скорость без инерции
+		velocity.x = direction.x * get_speed()
+		velocity.z = direction.z * get_speed()
+		
 		var local_dir := global_transform.basis.inverse() * direction
 		var target_angle := atan2(local_dir.x, local_dir.z)
 		idle.rotation.y = lerp_angle(idle.rotation.y, target_angle, delta * MODEL_ROTATION_SPEED)
 	else:
-		velocity.x = move_toward(velocity.x, 0.0, FRICTION * delta)
-		velocity.z = move_toward(velocity.z, 0.0, FRICTION * delta)
+		# Мгновенная остановка
+		velocity.x = 0.0
+		velocity.z = 0.0
 
 func _update_animation() -> void:
 	var moving := Vector2(velocity.x, velocity.z).length() > 0.1
@@ -129,7 +139,11 @@ func _attack_nearest_enemy() -> void:
 			nearest = enemy
 
 	if nearest:
+		_play_aura()
 		try_attack(nearest)
+	else:
+		# Ауру показываем даже при промахе
+		_play_aura()
 
 
 
@@ -147,10 +161,12 @@ func _on_attack_area_exited(body: Node3D) -> void:
 		
 		
 func update_hp_bar():
+	
 	if hp_bar:
 		hp_bar.max_value = get_max_hp()
 		hp_bar.value = current_hp
-		
+	if label_hp:
+		label_hp.text = "HP: %d / %d" % [current_hp, get_max_hp()]	
 func take_damage(amount: int) -> void:
 	super.take_damage(amount)
 	update_hp_bar()
@@ -158,10 +174,132 @@ func _handle_regen(delta: float) -> void:
 	super._handle_regen(delta)
 	update_hp_bar()
 func level_up() -> void:
-	panel.show()
 	super.level_up()
+	if point > 0:
+		print(point)
+		panel.show()
 	update_hp_bar()
 	
+
+func _on_upgete_1_pressed() -> void:
+	bonuse_hp += 20
+	lable_max_hp.text = str(get_max_hp())
+	point -= 1
+	print(point)
+	if point == 0:
+		panel.hide()
 		
-		
-		
+
+
+func _on_upgete_2_pressed() -> void:
+	bonuse_damage += 5
+	lable_dmg.text = str(get_damage())
+	point -= 1
+	print(point)
+	if point == 0:
+		panel.hide()
+
+
+
+
+func _on_upgete_3_pressed() -> void:
+	bonuse_crit_chance += 2
+	lable_crit_chanc.text = str(get_crit_chance())
+	point -= 1
+	print(point)
+	if point == 0:
+		panel.hide()
+
+	pass # Replace with function body.
+
+
+func _on_upgete_4_pressed() -> void:
+	bonuse_crit_damage += 10
+	lable_crit.text = str(get_crit_damage())
+	point -= 1
+	print(point)
+	if point == 0:
+		panel.hide()
+
+func _on_upgete_5_pressed() -> void:
+	bonuse_regen_hp += 5
+	lable_regen_hp.text = str(get_regen_hp())
+	point -= 1
+	print(point)
+	if point == 0:
+		panel.hide()
+
+
+
+
+func _on_upgete_6_pressed() -> void:
+	bonuse_speed += 2
+	lable_speed.text = str(get_speed())
+	point -= 1
+	print(point)
+	if point == 0:
+		panel.hide()
+
+
+
+func _on_upgete_7_pressed() -> void:
+	bonuse_speed_attack += 0.2
+	lable_speed_attakc.text = str(get_speed_attack())
+	point -= 1
+	print(point)
+	if point == 0:
+		panel.hide()
+func _play_aura() -> void:
+	# Берём размер из CollisionShape зоны атаки
+	var shape := collision_shape_dmg.shape
+	var wave_size := 1.0
+	
+	if shape is SphereShape3D:
+		wave_size = shape.radius
+	elif shape is BoxShape3D:
+		wave_size = max(shape.size.x, shape.size.z) / 2.0
+	elif shape is CylinderShape3D:
+		wave_size = shape.radius
+
+	var mesh_instance := MeshInstance3D.new()
+	add_child(mesh_instance)
+	
+	# Позиция совпадает с центром Area_dmg
+	mesh_instance.position = area_dmg.position
+	mesh_instance.position.y = 0.1
+
+	var torus := TorusMesh.new()
+	torus.inner_radius = wave_size * 0.6
+	torus.outer_radius = wave_size * 0.8
+	mesh_instance.mesh = torus
+
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = Color(0.3, 0.6, 1.0, 0.9)
+	mat.emission_enabled = true
+	mat.emission = Color(0.3, 0.6, 1.0)
+	mat.emission_energy_multiplier = 4.0
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.cull_mode = BaseMaterial3D.CULL_DISABLED
+	mesh_instance.set_surface_override_material(0, mat)
+
+	# Начинаем с нуля и расширяемся до размера зоны
+	mesh_instance.scale = Vector3(0.1, 0.1, 0.1)
+	
+	var tween := create_tween()
+	tween.set_parallel(true)
+	
+	# Расширяется точно до размера зоны
+	tween.tween_property(mesh_instance, "scale", Vector3(1.0, 1.0, 1.0), 0.3)
+	
+	# Затухает
+	tween.tween_method(
+		func(a: float):
+			if is_instance_valid(mesh_instance):
+				var m := mesh_instance.get_surface_override_material(0) as StandardMaterial3D
+				if m:
+					m.albedo_color.a = a
+					m.emission_energy_multiplier = a * 4.0,
+		0.9, 0.0, 0.3
+	)
+	
+	tween.tween_callback(mesh_instance.queue_free).set_delay(0.35)

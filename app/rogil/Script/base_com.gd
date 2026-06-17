@@ -11,7 +11,7 @@ func _ready() -> void:
 func startgen(n):
 	for point in pointgena.get_children():
 		
-		var room = load("res://comtwo.tscn").instantiate()
+		var room = Global.get_room().instantiate()
 
 		get_tree().current_scene.add_child(room)
 

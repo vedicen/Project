@@ -18,7 +18,7 @@ config/icon="res://Shader/icon.svg"
 [autoload]
 
 Skill="*uid://c0ailttp1v5qy"
-Gloval="*uid://cwp3c0l6nwhpl"
+Global="*uid://tiuklewf2a3y"
 
 [filesystem]
 

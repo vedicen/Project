@@ -332,6 +332,8 @@ height = 6.01709
 [sub_resource type="SphereShape3D" id="SphereShape3D_obvhc"]
 radius = 6.0
 
+[sub_resource type="Theme" id="Theme_obvhc"]
+
 [node name="CharacterBody3D" type="CharacterBody3D" unique_id=750457174 groups=["player"]]
 script = ExtResource("1_rolsr")
 speed = 20
@@ -607,9 +609,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 4
+metadata/_edit_use_anchors_ = true
 
 [node name="Panel" type="Panel" parent="Control" unique_id=612924697]
-visible = false
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -634,31 +636,112 @@ offset_top = -140.0
 offset_bottom = 149.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_constants/separation = 30
+theme_override_constants/separation = 10
 
-[node name="Upgete1" type="Button" parent="Control/Panel/VBoxContainer" unique_id=1737761932]
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/Panel/VBoxContainer" unique_id=1368119178]
 layout_mode = 2
-text = "Улучшение 1"
+alignment = 1
 
-[node name="Upgete2" type="Button" parent="Control/Panel/VBoxContainer" unique_id=416561412]
+[node name="Upgete1" type="Button" parent="Control/Panel/VBoxContainer/HBoxContainer" unique_id=1737761932]
 layout_mode = 2
-text = "Улучшение 2"
+text = "+ Макс HP"
 
-[node name="Upgete3" type="Button" parent="Control/Panel/VBoxContainer" unique_id=975497844]
+[node name="lable_max_hp" type="Label" parent="Control/Panel/VBoxContainer/HBoxContainer" unique_id=1518206518]
 layout_mode = 2
-text = "Улучшение 3"
+text = "ХП"
 
-[node name="Upgete4" type="Button" parent="Control/Panel/VBoxContainer" unique_id=1449394555]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/Panel/VBoxContainer" unique_id=560403821]
 layout_mode = 2
-text = "Улучшение 4 "
+alignment = 1
 
-[node name="Upgete5" type="Button" parent="Control/Panel/VBoxContainer" unique_id=2138738616]
+[node name="Upgete2" type="Button" parent="Control/Panel/VBoxContainer/HBoxContainer2" unique_id=416561412]
 layout_mode = 2
-text = "Улучшение 5"
+text = "+ DAMAGE"
 
-[node name="ProgressBar" type="ProgressBar" parent="." unique_id=635779637]
-offset_right = 225.0
-offset_bottom = 30.0
+[node name="lable_dmg" type="Label" parent="Control/Panel/VBoxContainer/HBoxContainer2" unique_id=1122681083]
+layout_mode = 2
+text = "дмг"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Control/Panel/VBoxContainer" unique_id=2103434586]
+layout_mode = 2
+alignment = 1
+
+[node name="Upgete3" type="Button" parent="Control/Panel/VBoxContainer/HBoxContainer3" unique_id=975497844]
+layout_mode = 2
+text = "+ крит. шанс"
+
+[node name="lable_crit_chanc" type="Label" parent="Control/Panel/VBoxContainer/HBoxContainer3" unique_id=657198971]
+layout_mode = 2
+text = "шанс"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="Control/Panel/VBoxContainer" unique_id=1276109189]
+layout_mode = 2
+alignment = 1
+
+[node name="Upgete4" type="Button" parent="Control/Panel/VBoxContainer/HBoxContainer4" unique_id=1449394555]
+layout_mode = 2
+text = "+ крит урон"
+
+[node name="lable_crit" type="Label" parent="Control/Panel/VBoxContainer/HBoxContainer4" unique_id=1724698540]
+layout_mode = 2
+text = "дмг"
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="Control/Panel/VBoxContainer" unique_id=932044030]
+layout_mode = 2
+alignment = 1
+
+[node name="Upgete5" type="Button" parent="Control/Panel/VBoxContainer/HBoxContainer5" unique_id=2138738616]
+layout_mode = 2
+text = "+ реген. HP"
+
+[node name="lable_regen_hp" type="Label" parent="Control/Panel/VBoxContainer/HBoxContainer5" unique_id=273069907]
+layout_mode = 2
+text = "дмг"
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="Control/Panel/VBoxContainer" unique_id=1533727869]
+layout_mode = 2
+alignment = 1
+
+[node name="Upgete6" type="Button" parent="Control/Panel/VBoxContainer/HBoxContainer6" unique_id=445153316]
+layout_mode = 2
+text = "+ скорость"
+
+[node name="lable_speed" type="Label" parent="Control/Panel/VBoxContainer/HBoxContainer6" unique_id=761776608]
+layout_mode = 2
+text = "дмг"
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="Control/Panel/VBoxContainer" unique_id=768077655]
+layout_mode = 2
+alignment = 1
+
+[node name="Upgete7" type="Button" parent="Control/Panel/VBoxContainer/HBoxContainer7" unique_id=847469786]
+layout_mode = 2
+text = "+ скорость атаки"
+
+[node name="lable_speed_attakc" type="Label" parent="Control/Panel/VBoxContainer/HBoxContainer7" unique_id=719791472]
+layout_mode = 2
+text = "дмг"
+
+[node name="ProgressBar" type="ProgressBar" parent="Control" unique_id=635779637]
+layout_mode = 1
+offset_right = 261.0
+offset_bottom = 27.0
+theme = SubResource("Theme_obvhc")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Control" unique_id=870952422]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 31.0
+offset_right = 261.0
+offset_bottom = 92.0
 
 [connection signal="body_entered" from="Area_dmg" to="." method="_on_area_dmg_body_entered"]
 [connection signal="body_exited" from="Area_dmg" to="." method="_on_area_dmg_body_exited"]
+[connection signal="pressed" from="Control/Panel/VBoxContainer/HBoxContainer/Upgete1" to="." method="_on_upgete_1_pressed"]
+[connection signal="pressed" from="Control/Panel/VBoxContainer/HBoxContainer2/Upgete2" to="." method="_on_upgete_2_pressed"]
+[connection signal="pressed" from="Control/Panel/VBoxContainer/HBoxContainer3/Upgete3" to="." method="_on_upgete_3_pressed"]
+[connection signal="pressed" from="Control/Panel/VBoxContainer/HBoxContainer4/Upgete4" to="." method="_on_upgete_4_pressed"]
+[connection signal="pressed" from="Control/Panel/VBoxContainer/HBoxContainer5/Upgete5" to="." method="_on_upgete_5_pressed"]
+[connection signal="pressed" from="Control/Panel/VBoxContainer/HBoxContainer6/Upgete6" to="." method="_on_upgete_6_pressed"]
+[connection signal="pressed" from="Control/Panel/VBoxContainer/HBoxContainer7/Upgete7" to="." method="_on_upgete_7_pressed"]
