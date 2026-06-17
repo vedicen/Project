@@ -599,5 +599,66 @@ transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 3, 0)
 shape = SubResource("SphereShape3D_obvhc")
 debug_color = Color(0.8527631, 0.35493717, 0.2914539, 0.41960785)
 
+[node name="Control" type="Control" parent="." unique_id=732928280]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+
+[node name="Panel" type="Panel" parent="Control" unique_id=612924697]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -253.0
+offset_top = -143.25
+offset_bottom = 143.25
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Panel" unique_id=644259655]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -251.0
+offset_top = -140.0
+offset_bottom = 149.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/separation = 30
+
+[node name="Upgete1" type="Button" parent="Control/Panel/VBoxContainer" unique_id=1737761932]
+layout_mode = 2
+text = "Улучшение 1"
+
+[node name="Upgete2" type="Button" parent="Control/Panel/VBoxContainer" unique_id=416561412]
+layout_mode = 2
+text = "Улучшение 2"
+
+[node name="Upgete3" type="Button" parent="Control/Panel/VBoxContainer" unique_id=975497844]
+layout_mode = 2
+text = "Улучшение 3"
+
+[node name="Upgete4" type="Button" parent="Control/Panel/VBoxContainer" unique_id=1449394555]
+layout_mode = 2
+text = "Улучшение 4 "
+
+[node name="Upgete5" type="Button" parent="Control/Panel/VBoxContainer" unique_id=2138738616]
+layout_mode = 2
+text = "Улучшение 5"
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=635779637]
+offset_right = 225.0
+offset_bottom = 30.0
+
 [connection signal="body_entered" from="Area_dmg" to="." method="_on_area_dmg_body_entered"]
 [connection signal="body_exited" from="Area_dmg" to="." method="_on_area_dmg_body_exited"]

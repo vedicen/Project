@@ -4,7 +4,7 @@ extends Node3D
 @onready var area_3d_2: Area3D = $Area3D2     # зона преследования (дальняя)
 
 const SPEED = 3.0
-var expe  = 10
+var expe  = 100
 
 var player: Node3D = null
 var is_chasing: bool = false

@@ -13,12 +13,16 @@ config_version=5
 config/name="rogil"
 run/main_scene="res://Scene/Map.tscn"
 config/features=PackedStringArray("4.6", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://Shader/icon.svg"
 
 [autoload]
 
 Skill="*uid://c0ailttp1v5qy"
 Gloval="*uid://cwp3c0l6nwhpl"
+
+[filesystem]
+
+import/blender/enabled=false
 
 [global_group]
 

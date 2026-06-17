@@ -8,6 +8,15 @@ class_name Plaeyr
 @onready var area_dmg: Area3D = $Area_dmg
 @onready var collision_shape_dmg: CollisionShape3D = $Area_dmg/CollisionShapeDMG
 
+@onready var control: Control = $Control
+@onready var panel: Panel = $Control/Panel
+@onready var v_box_container: VBoxContainer = $Control/Panel/VBoxContainer
+@onready var upgete_1: Button = $Control/Panel/VBoxContainer/Upgete1
+@onready var upgete_2: Button = $Control/Panel/VBoxContainer/Upgete2
+@onready var upgete_4: Button = $Control/Panel/VBoxContainer/Upgete4
+@onready var upgete_5: Button = $Control/Panel/VBoxContainer/Upgete5
+@onready var hp_bar: ProgressBar = $ProgressBar
+
 const WALK_SPEED = 20.0   # нормальная скорость (подберите на глаз)
 const ACCELERATION = 10.0
 const FRICTION = 20.0
@@ -22,12 +31,15 @@ var enemies_in_range: Array[Entity] = []
 
 # Player.gd (дописать в _ready)
 func _ready() -> void:
+	
 	super._ready()
+	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	animation_player.play("Idle")
 	add_to_group("player")
 	area_dmg.body_entered.connect(_on_attack_area_entered)
 	area_dmg.body_exited.connect(_on_attack_area_exited)
+	update_hp_bar()
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
@@ -134,10 +146,22 @@ func _on_attack_area_exited(body: Node3D) -> void:
 		enemies_in_range.erase(body)
 		
 		
+func update_hp_bar():
+	if hp_bar:
+		hp_bar.max_value = get_max_hp()
+		hp_bar.value = current_hp
 		
-		
-		
-		
+func take_damage(amount: int) -> void:
+	super.take_damage(amount)
+	update_hp_bar()
+func _handle_regen(delta: float) -> void:
+	super._handle_regen(delta)
+	update_hp_bar()
+func level_up() -> void:
+	panel.show()
+	super.level_up()
+	update_hp_bar()
+	
 		
 		
 		
