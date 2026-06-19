@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://cvwdntwr0irl3"]
 
 [ext_resource type="Script" uid="uid://bjuq3dtt5sqhh" path="res://Script/Player.gd" id="1_rolsr"]
+[ext_resource type="PackedScene" uid="uid://bjp3hnt0vdsdj" path="res://UI/3d_progress.tscn" id="3_jvxg0"]
 [ext_resource type="AnimationLibrary" uid="uid://dxkgobfc23m6v" path="res://anim/Walking.fbx" id="5_3hm83"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xg0p8"]
@@ -334,7 +335,7 @@ radius = 6.0
 
 [sub_resource type="Theme" id="Theme_obvhc"]
 
-[node name="CharacterBody3D" type="CharacterBody3D" unique_id=750457174 groups=["player"]]
+[node name="Player" type="CharacterBody3D" unique_id=750457174 groups=["player"]]
 script = ExtResource("1_rolsr")
 speed = 20
 speed_attack = 2.0
@@ -736,6 +737,9 @@ offset_left = 5.0
 offset_top = 31.0
 offset_right = 261.0
 offset_bottom = 92.0
+
+[node name="3dProgress" parent="." unique_id=1860586944 instance=ExtResource("3_jvxg0")]
+transform = Transform3D(2.01, 0, 0, 0, 2.01, 0, 0, 0, 2.01, 0, 5.911954, 0)
 
 [connection signal="body_entered" from="Area_dmg" to="." method="_on_area_dmg_body_entered"]
 [connection signal="body_exited" from="Area_dmg" to="." method="_on_area_dmg_body_exited"]

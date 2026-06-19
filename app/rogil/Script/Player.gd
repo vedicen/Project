@@ -1,5 +1,6 @@
 extends Entity
-class_name Plaeyr
+class_name Player
+@onready var _3d_progress: Node3D = $"3dProgress"
 
 @onready var animation_player: AnimationPlayer = $Idle/AnimationPlayer
 @onready var camerapoint: Node3D = $camerapoint
@@ -166,7 +167,9 @@ func update_hp_bar():
 		hp_bar.max_value = get_max_hp()
 		hp_bar.value = current_hp
 	if label_hp:
-		label_hp.text = "HP: %d / %d" % [current_hp, get_max_hp()]	
+		label_hp.text = "HP: %d / %d" % [current_hp, get_max_hp()]
+	_3d_progress.set_value(current_hp)
+	_3d_progress.set_max_value(max_hp)
 func take_damage(amount: int) -> void:
 	super.take_damage(amount)
 	update_hp_bar()
