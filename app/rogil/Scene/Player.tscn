@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bjuq3dtt5sqhh" path="res://Script/Player.gd" id="1_rolsr"]
 [ext_resource type="PackedScene" uid="uid://bjp3hnt0vdsdj" path="res://UI/3d_progress.tscn" id="3_jvxg0"]
+[ext_resource type="PackedScene" uid="uid://cas6msakokvcw" path="res://UI/pause_menu.tscn" id="3_mud5u"]
 [ext_resource type="AnimationLibrary" uid="uid://dxkgobfc23m6v" path="res://anim/Walking.fbx" id="5_3hm83"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xg0p8"]
@@ -737,6 +738,10 @@ offset_left = 5.0
 offset_top = 31.0
 offset_right = 261.0
 offset_bottom = 92.0
+
+[node name="PauseMenu" parent="Control" unique_id=664724262 instance=ExtResource("3_mud5u")]
+visible = false
+layout_mode = 1
 
 [node name="3dProgress" parent="." unique_id=1860586944 instance=ExtResource("3_jvxg0")]
 transform = Transform3D(2.01, 0, 0, 0, 2.01, 0, 0, 0, 2.01, 0, 5.911954, 0)

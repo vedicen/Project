@@ -19,6 +19,7 @@ config/icon="res://Shader/icon.svg"
 
 Skill="*uid://c0ailttp1v5qy"
 Global="*uid://tiuklewf2a3y"
+SettingsManager="*uid://dyqtc7c7vmhdq"
 
 [filesystem]
 

@@ -69,10 +69,21 @@ func _input(event: InputEvent) -> void:
 				if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED \
 				else Input.MOUSE_MODE_CAPTURED
 			Input.set_mouse_mode(mode)
-
+			match mode:
+				Input.MOUSE_MODE_CAPTURED:
+					hide_options()
+				Input.MOUSE_MODE_VISIBLE:
+					show_options()
 	#if event is InputEventMouseButton and event.pressed:
 		#if event.button_index == MOUSE_BUTTON_LEFT:
 			#_attack_nearest_enemy()
+
+func hide_options():
+	$Control/PauseMenu.hide()
+
+func show_options():
+	$Control/PauseMenu.show()
+
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
