@@ -55,7 +55,7 @@ func _input(event: InputEvent) -> void:
 		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			rotate_y(-event.relative.x * MOUSE_SENSITIVITY)
 			camera_pitch = clamp(
-				camera_pitch - event.relative.y * MOUSE_SENSITIVITY,
+				camera_pitch + event.relative.y * MOUSE_SENSITIVITY,
 				deg_to_rad(CAMERA_MIN_PITCH),
 				deg_to_rad(CAMERA_MAX_PITCH)
 			)
